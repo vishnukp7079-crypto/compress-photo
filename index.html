@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo Compressor & HD Enhancer – Made by V Pandey</title>
+<meta name="description" content="Compress photos to exact KB size and enhance low quality photos to HD. Free, private, made in India.">
+<style>
+:root{--g:rgba(255,255,255,.12);--b:rgba(255,255,255,.28);--t:#fff;--m:#cfd6ff;--a:#7c8cff;--a2:#ff7ce5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;color:var(--t);min-height:100vh;background:#0b0f2a;overflow-x:hidden}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:.65;z-index:-1;animation:fl 18s ease-in-out infinite alternate}
+.b1{width:420px;height:420px;background:#5b6cff;top:-100px;left:-100px}
+.b2{width:380px;height:380px;background:#ff4fd8;bottom:-80px;right:-80px;animation-delay:-6s}
+.b3{width:300px;height:300px;background:#19d3c5;top:45%;left:55%;animation-delay:-12s}
+@keyframes fl{to{transform:translate(60px,-40px) scale(1.2)}}
+.glass{background:var(--g);border:1px solid var(--b);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35)}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;margin-bottom:14px}
+.logo{font-weight:800;font-size:1.1rem;letter-spacing:.3px}
+.logo span{background:linear-gradient(90deg,var(--a),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lang button{background:transparent;border:1px solid var(--b);color:var(--t);padding:6px 12px;cursor:pointer;font-size:.85rem}
+.lang button:first-child{border-radius:12px 0 0 12px}.lang button:last-child{border-radius:0 12px 12px 0}
+.lang button.on{background:linear-gradient(135deg,var(--a),var(--a2));border-color:transparent}
+.ad{min-height:90px;display:flex;align-items:center;justify-content:center;color:var(--m);font-size:.8rem;margin:12px 0;border-style:dashed}
+h1{font-size:clamp(1.5rem,5vw,2.2rem);text-align:center;margin:18px 0 6px}
+.sub{text-align:center;color:var(--m);margin-bottom:18px}
+.card{padding:20px;margin-bottom:14px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{flex:1;padding:12px;border-radius:16px;border:1px solid var(--b);background:var(--g);color:var(--t);cursor:pointer;font-weight:600;transition:.25s}
+.tab.on{background:linear-gradient(135deg,var(--a),var(--a2));box-shadow:0 6px 20px rgba(124,140,255,.45)}
+.drop{border:2px dashed var(--b);border-radius:20px;padding:34px 16px;text-align:center;cursor:pointer;transition:.25s}
+.drop.over,.drop:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.drop .ic{font-size:2.2rem}
+.row{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px;align-items:end}
+.f{display:flex;flex-direction:column;gap:6px;flex:1;min-width:130px;font-size:.85rem;color:var(--m)}
+input,select{background:rgba(255,255,255,.1);border:1px solid var(--b);color:var(--t);padding:11px;border-radius:12px;font-size:1rem;outline:none;width:100%}
+select option{color:#000}
+input[type=range]{padding:0;accent-color:var(--a)}
+.btn{border:0;border-radius:14px;padding:13px 22px;font-weight:700;font-size:1rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--a),var(--a2));box-shadow:0 6px 20px rgba(124,140,255,.45);transition:.2s}
+.btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.5;cursor:wait;transform:none}
+.btn.sec{background:var(--g);border:1px solid var(--b);box-shadow:none}
+.item{display:flex;gap:12px;padding:12px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.item img{width:72px;height:72px;object-fit:cover;border-radius:14px;border:1px solid var(--b)}
+.info{flex:1;min-width:150px;font-size:.88rem;line-height:1.5;word-break:break-all}
+.info small{color:var(--m)}
+.ok{color:#7dffb3}.err{color:#ff8f8f}
+.bar{height:5px;border-radius:5px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .3s}
+.act{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.note{font-size:.8rem;color:var(--m);margin-top:10px}
+footer{text-align:center;padding:18px;color:var(--m);font-size:.95rem}
+footer b{color:#fff}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+<header class="glass">
+  <div class="logo">📷 <span>PhotoPro</span></div>
+  <div class="lang"><button id="l-en" class="on">EN</button><button id="l-hi">हिंदी</button></div>
+</header>
+
+<!-- ===== TOP AD SECTION: paste your ad code (e.g. Google AdSense) inside this div ===== -->
+<div class="ad glass" id="ad-top"><span data-i18n="adTop">Advertisement (Top)</span></div>
+
+<h1 data-i18n="title">Compress & Enhance Photos</h1>
+<p class="sub" data-i18n="sub">Exact-size compression and HD upscaling. 100% private – photos never leave your device.</p>
+
+<div class="card glass">
+  <div class="tabs">
+    <button class="tab on" id="tab-c" data-i18n="tabC">🗜️ Compress to Size</button>
+    <button class="tab" id="tab-e" data-i18n="tabE">✨ Enhance to HD</button>
+  </div>
+
+  <label class="drop" id="drop">
+    <input type="file" id="file" accept="image/*" multiple hidden>
+    <div class="ic">🖼️</div>
+    <div data-i18n="drop">Tap to choose photos or drag & drop here</div>
+  </label>
+
+  <div class="row" id="ctl-c">
+    <div class="f"><span data-i18n="target">Target size</span>
+      <div style="display:flex;gap:8px"><input type="number" id="tv" value="50" min="1" step="1"><select id="tu" style="width:90px"><option>KB</option><option>MB</option></select></div></div>
+    <div class="f"><span data-i18n="fmt">Output format</span>
+      <select id="fmt"><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>
+  </div>
+
+  <div class="row hide" id="ctl-e">
+    <div class="f"><span data-i18n="scale">Upscale</span>
+      <select id="sc"><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option></select></div>
+    <div class="f"><span><span data-i18n="sharp">Sharpness</span>: <b id="shv">60</b>%</span>
+      <input type="range" id="sh" min="0" max="100" value="60"></div>
+  </div>
+  <p class="note hide" id="enote" data-i18n="enote">HD Enhance uses smart upscaling + sharpening + gentle color boost. Results improve clarity but cannot invent missing details.</p>
+
+  <div class="act">
+    <button class="btn" id="go" data-i18n="go">Start</button>
+    <button class="btn sec" id="dlAll" data-i18n="dlAll">Download All</button>
+    <button class="btn sec" id="clr" data-i18n="clr">Clear</button>
+  </div>
+  <div id="list"></div>
+</div>
+
+<!-- ===== BOTTOM AD SECTION: paste your ad code inside this div ===== -->
+<div class="ad glass" id="ad-bottom"><span data-i18n="adBot">Advertisement (Bottom)</span></div>
+
+<footer class="glass"><span data-i18n="made">Made in India 🇮🇳</span> · <b data-i18n="by">Made by V Pandey</b></footer>
+</div>
+
+<script>
+const I18N={
+en:{title:"Compress & Enhance Photos",sub:"Exact-size compression and HD upscaling. 100% private – photos never leave your device.",tabC:"🗜️ Compress to Size",tabE:"✨ Enhance to HD",drop:"Tap to choose photos or drag & drop here",target:"Target size",fmt:"Output format",scale:"Upscale",sharp:"Sharpness",enote:"HD Enhance uses smart upscaling + sharpening + gentle color boost. Results improve clarity but cannot invent missing details.",go:"Start",dlAll:"Download All",clr:"Clear",adTop:"Advertisement (Top)",adBot:"Advertisement (Bottom)",made:"Made in India 🇮🇳",by:"Made by V Pandey",original:"Original",result:"Result",pending:"Ready",working:"Processing…",done:"Done",fail:"Could not reach target size",dl:"Download",already:"Original was already smaller; re-encoded"},
+hi:{title:"फ़ोटो कंप्रेस और HD करें",sub:"सटीक साइज़ में कंप्रेस और HD अपस्केल। 100% सुरक्षित – फ़ोटो आपके डिवाइस से बाहर नहीं जाती।",tabC:"🗜️ साइज़ में कंप्रेस",tabE:"✨ HD में बदलें",drop:"फ़ोटो चुनने के लिए टैप करें या यहाँ ड्रैग & ड्रॉप करें",target:"टारगेट साइज़",fmt:"आउटपुट फॉर्मेट",scale:"अपस्केल",sharp:"शार्पनेस",enote:"HD Enhance स्मार्ट अपस्केलिंग + शार्पनिंग + हल्का कलर बूस्ट करता है। इससे फ़ोटो साफ़ दिखती है, पर गायब डिटेल नहीं बना सकता।",go:"शुरू करें",dlAll:"सब डाउनलोड करें",clr:"साफ़ करें",adTop:"विज्ञापन (ऊपर)",adBot:"विज्ञापन (नीचे)",made:"मेड इन इंडिया 🇮🇳",by:"मेड बाय वी पांडे",original:"ओरिजिनल",result:"नतीजा",pending:"तैयार",working:"प्रोसेस हो रहा है…",done:"पूरा हुआ",fail:"टारगेट साइज़ तक नहीं पहुँच सका",dl:"डाउनलोड",already:"ओरिजिनल पहले से छोटी थी; फिर से एनकोड की गई"}
+};
+let lang=localStorage.getItem('lang')||'en',mode='c',items=[],busy=false;
+const $=id=>document.getElementById(id),t=k=>I18N[lang][k];
+const fmtB=b=>b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB';
+
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=t(e.dataset.i18n));
+  $('l-en').classList.toggle('on',lang==='en');$('l-hi').classList.toggle('on',lang==='hi');
+  localStorage.setItem('lang',lang);render();
+}
+$('l-en').onclick=()=>{lang='en';applyLang()};
+$('l-hi').onclick=()=>{lang='hi';applyLang()};
+
+function setMode(m){
+  mode=m;$('tab-c').classList.toggle('on',m==='c');$('tab-e').classList.toggle('on',m==='e');
+  $('ctl-c').classList.toggle('hide',m!=='c');$('ctl-e').classList.toggle('hide',m!=='e');$('enote').classList.toggle('hide',m!=='e');
+}
+$('tab-c').onclick=()=>setMode('c');$('tab-e').onclick=()=>setMode('e');
+$('sh').oninput=e=>$('shv').textContent=e.target.value;
+
+function addFiles(fl){
+  [...fl].filter(f=>f.type.startsWith('image/')).forEach(f=>items.push({file:f,thumb:URL.createObjectURL(f),res:null,status:'pending',p:0}));
+  render();
+}
+$('file').onchange=e=>{addFiles(e.target.files);e.target.value=''};
+['dragover','dragenter'].forEach(ev=>$('drop').addEventListener(ev,e=>{e.preventDefault();$('drop').classList.add('over')}));
+['dragleave','drop'].forEach(ev=>$('drop').addEventListener(ev,e=>{e.preventDefault();$('drop').classList.remove('over')}));
+$('drop').addEventListener('drop',e=>addFiles(e.dataTransfer.files));
+$('clr').onclick=()=>{items.forEach(i=>{URL.revokeObjectURL(i.thumb);i.res&&URL.revokeObjectURL(i.res.url)});items=[];render()};
+
+function render(){
+  $('list').innerHTML=items.map((it,i)=>{
+    const st=it.status==='done'?`<span class="ok">✔ ${t('done')}</span>`:it.status==='fail'?`<span class="err">✖ ${t('fail')}</span>`:it.status==='work'?t('working'):t('pending');
+    const res=it.res?`<br>${t('result')}: <b>${fmtB(it.res.blob.size)}</b> (${it.res.w}×${it.res.h})${it.note?`<br><small>${it.note}</small>`:''}`:'';
+    return `<div class="item glass"><img src="${it.res?it.res.url:it.thumb}" alt="">
+    <div class="info"><b>${it.file.name}</b><br>${t('original')}: ${fmtB(it.file.size)}${res}<br>${st}
+    <div class="bar"><i style="width:${it.p}%"></i></div></div>
+    ${it.res?`<button class="btn" onclick="dl(${i})">⬇ ${t('dl')}</button>`:''}</div>`}).join('');
+}
+
+function loadImg(src){return new Promise((ok,no)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=no;im.src=src})}
+function toBlob(c,m,q){return new Promise(r=>c.toBlob(r,m,q))}
+function mkCanvas(w,h){const c=document.createElement('canvas');c.width=Math.max(1,Math.round(w));c.height=Math.max(1,Math.round(h));return c}
+function draw(src,w,h,mime){
+  const c=mkCanvas(w,h),x=c.getContext('2d');
+  if(mime==='image/jpeg'){x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height)}
+  x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.drawImage(src,0,0,c.width,c.height);return c;
+}
+const ext=m=>m==='image/webp'?'webp':'jpg';
+
+/* ---------- Compress: binary search quality, then shrink dimensions if needed ---------- */
+async function compress(img,file,target,mime,prog){
+  let w=img.naturalWidth,h=img.naturalHeight;
+  for(let round=0;round<25;round++){
+    const c=draw(img,w,h,mime);
+    let lo=0.02,hi=0.95,best=null;
+    const hiB=await toBlob(c,mime,hi);
+    if(hiB.size<=target)best=hiB;
+    else{
+      for(let k=0;k<9;k++){
+        const q=(lo+hi)/2,b=await toBlob(c,mime,q);
+        if(b.size<=target){best=b;lo=q}else hi=q;
+      }
+    }
+    prog(Math.min(95,(round+1)*8));
+    if(best)return{blob:best,w:c.width,h:c.height};
+    const ratio=Math.sqrt(target/hiB.size);          // smart shrink factor
+    const f=Math.min(.92,Math.max(.5,ratio*1.05));
+    w*=f;h*=f;
+    if(w<16||h<16)return null;
+  }
+  return null;
+}
+
+/* ---------- Enhance: progressive upscale + unsharp-style convolution + gentle boost ---------- */
+function sharpen(c,amount){
+  if(amount<=0)return c;
+  const x=c.getContext('2d'),w=c.width,h=c.height,src=x.getImageData(0,0,w,h),s=src.data,out=x.createImageData(w,h),d=out.data;
+  const a=amount*0.9,c0=1+4*a;
+  for(let y=0;y<h;y++){
+    const ym=y>0?y-1:y,yp=y<h-1?y+1:y;
+    for(let xx=0;xx<w;xx++){
+      const xm=xx>0?xx-1:xx,xp=xx<w-1?xx+1:xx,i=(y*w+xx)*4,u=(ym*w+xx)*4,dn=(yp*w+xx)*4,l=(y*w+xm)*4,r=(y*w+xp)*4;
+      for(let k=0;k<3;k++){
+        const v=s[i+k]*c0-a*(s[u+k]+s[dn+k]+s[l+k]+s[r+k]);
+        d[i+k]=v<0?0:v>255?255:v;
+      }
+      d[i+3]=s[i+3];
+    }
+  }
+  x.putImageData(out,0,0);return c;
+}
+async function enhance(img,scale,amount,mime,prog){
+  const MAXPX=36e6,W=img.naturalWidth,H=img.naturalHeight;
+  while(W*scale*H*scale>MAXPX&&scale>1)scale-=.5;
+  const tw=Math.round(W*scale),th=Math.round(H*scale);
+  let cur=draw(img,W,H,mime);
+  while(cur.width<tw){                               // step-wise upscale keeps edges cleaner
+    const nw=Math.min(tw,cur.width*2),nh=Math.min(th,cur.height*2);
+    cur=draw(cur,nw,nh,mime);
+    await new Promise(r=>setTimeout(r));
+  }
+  prog(55);
+  const x=cur.getContext('2d');
+  const tmp=draw(cur,cur.width,cur.height,mime);     // gentle contrast/saturation boost
+  if('filter' in x){x.filter='contrast(1.06) saturate(1.08) brightness(1.01)';x.drawImage(tmp,0,0);x.filter='none'}
+  await new Promise(r=>setTimeout(r));
+  sharpen(cur,amount/100*0.55);
+  prog(90);
+  const blob=await toBlob(cur,mime,.93);
+  return{blob,w:cur.width,h:cur.height};
+}
+
+$('go').onclick=async()=>{
+  if(busy||!items.length)return;busy=true;$('go').disabled=true;
+  const mime=$('fmt').value,target=Math.max(1,+$('tv').value||1)*($('tu').value==='MB'?1048576:1024);
+  for(const it of items){
+    if(it.status==='done')continue;
+    it.status='work';it.p=5;it.note='';render();
+    try{
+      const url=URL.createObjectURL(it.file),img=await loadImg(url);
+      const prog=p=>{it.p=p;render()};
+      let r;
+      if(mode==='c'){
+        r=await compress(img,it.file,target,mime,prog);
+        if(r&&it.file.size<=target)it.note=t('already');
+      }else r=await enhance(img,+$('sc').value,+$('sh').value,mime,prog);
+      URL.revokeObjectURL(url);
+      if(r){it.res={...r,url:URL.createObjectURL(r.blob),mime};it.status='done';it.p=100}
+      else{it.status='fail';it.p=0}
+    }catch(e){it.status='fail';it.p=0}
+    render();
+    await new Promise(r=>setTimeout(r,30));
+  }
+  busy=false;$('go').disabled=false;
+};
+
+function dl(i){
+  const it=items[i];if(!it||!it.res)return;
+  const a=document.createElement('a'),base=it.file.name.replace(/\.[^.]+$/,'');
+  a.href=it.res.url;a.download=`${base}_${mode==='c'?'compressed':'HD'}.${ext(it.res.mime)}`;
+  document.body.appendChild(a);a.click();a.remove();
+}
+$('dlAll').onclick=async()=>{
+  for(let i=0;i<items.length;i++){if(items[i].res){dl(i);await new Promise(r=>setTimeout(r,350))}}
+};
+
+applyLang();
+</script>
+</body>
+  </html>
