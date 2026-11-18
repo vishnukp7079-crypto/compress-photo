@@ -3,266 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Photo Compressor & HD Enhancer – Made by V Pandey</title>
-<meta name="description" content="Compress photos to exact KB size and enhance low quality photos to HD. Free, private, made in India.">
+<title>Photo Compressor, 4K HD & Background Remover – Made by V Pandey</title>
+<meta name="description" content="Compress photos to exact KB, convert to 4K HD, remove background. Free, private, made in India.">
 <style>
-:root{--g:rgba(255,255,255,.12);--b:rgba(255,255,255,.28);--t:#fff;--m:#cfd6ff;--a:#7c8cff;--a2:#ff7ce5}
+:root{--b:rgba(255,255,255,.28);--m:#d3d9ff;--a:#7c8cff;--p:#ff7ce5}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;color:var(--t);min-height:100vh;background:#0b0f2a;overflow-x:hidden}
-.blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:.65;z-index:-1;animation:fl 18s ease-in-out infinite alternate}
-.b1{width:420px;height:420px;background:#5b6cff;top:-100px;left:-100px}
-.b2{width:380px;height:380px;background:#ff4fd8;bottom:-80px;right:-80px;animation-delay:-6s}
-.b3{width:300px;height:300px;background:#19d3c5;top:45%;left:55%;animation-delay:-12s}
+body{font-family:system-ui,"Noto Sans Devanagari",sans-serif;color:#fff;min-height:100vh;background:#0b0f2a;overflow-x:hidden}
+.bl{position:fixed;border-radius:50%;filter:blur(80px);opacity:.6;z-index:-1;animation:fl 16s ease-in-out infinite alternate}
 @keyframes fl{to{transform:translate(60px,-40px) scale(1.2)}}
-.glass{background:var(--g);border:1px solid var(--b);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35)}
-.wrap{max-width:900px;margin:0 auto;padding:16px}
-header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;margin-bottom:14px}
-.logo{font-weight:800;font-size:1.1rem;letter-spacing:.3px}
-.logo span{background:linear-gradient(90deg,var(--a),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.lang button{background:transparent;border:1px solid var(--b);color:var(--t);padding:6px 12px;cursor:pointer;font-size:.85rem}
-.lang button:first-child{border-radius:12px 0 0 12px}.lang button:last-child{border-radius:0 12px 12px 0}
-.lang button.on{background:linear-gradient(135deg,var(--a),var(--a2));border-color:transparent}
+.g{background:rgba(255,255,255,.12);border:1px solid var(--b);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35)}
+.w{max-width:860px;margin:0 auto;padding:14px}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;margin-bottom:12px}
+.logo span{background:linear-gradient(90deg,var(--a),var(--p));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lg button{background:0;border:1px solid var(--b);color:#fff;padding:6px 12px;cursor:pointer}
+.lg button:first-child{border-radius:12px 0 0 12px}.lg button:last-child{border-radius:0 12px 12px 0}
+.lg .on,.tab.on{background:linear-gradient(135deg,var(--a),var(--p))}
 .ad{min-height:90px;display:flex;align-items:center;justify-content:center;color:var(--m);font-size:.8rem;margin:12px 0;border-style:dashed}
-h1{font-size:clamp(1.5rem,5vw,2.2rem);text-align:center;margin:18px 0 6px}
-.sub{text-align:center;color:var(--m);margin-bottom:18px}
-.card{padding:20px;margin-bottom:14px}
-.tabs{display:flex;gap:8px;margin-bottom:16px}
-.tab{flex:1;padding:12px;border-radius:16px;border:1px solid var(--b);background:var(--g);color:var(--t);cursor:pointer;font-weight:600;transition:.25s}
-.tab.on{background:linear-gradient(135deg,var(--a),var(--a2));box-shadow:0 6px 20px rgba(124,140,255,.45)}
-.drop{border:2px dashed var(--b);border-radius:20px;padding:34px 16px;text-align:center;cursor:pointer;transition:.25s}
-.drop.over,.drop:hover{background:rgba(255,255,255,.1);border-color:#fff}
-.drop .ic{font-size:2.2rem}
-.row{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px;align-items:end}
-.f{display:flex;flex-direction:column;gap:6px;flex:1;min-width:130px;font-size:.85rem;color:var(--m)}
-input,select{background:rgba(255,255,255,.1);border:1px solid var(--b);color:var(--t);padding:11px;border-radius:12px;font-size:1rem;outline:none;width:100%}
-select option{color:#000}
-input[type=range]{padding:0;accent-color:var(--a)}
-.btn{border:0;border-radius:14px;padding:13px 22px;font-weight:700;font-size:1rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--a),var(--a2));box-shadow:0 6px 20px rgba(124,140,255,.45);transition:.2s}
-.btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.5;cursor:wait;transform:none}
-.btn.sec{background:var(--g);border:1px solid var(--b);box-shadow:none}
-.item{display:flex;gap:12px;padding:12px;margin-top:12px;align-items:center;flex-wrap:wrap}
-.item img{width:72px;height:72px;object-fit:cover;border-radius:14px;border:1px solid var(--b)}
-.info{flex:1;min-width:150px;font-size:.88rem;line-height:1.5;word-break:break-all}
-.info small{color:var(--m)}
-.ok{color:#7dffb3}.err{color:#ff8f8f}
-.bar{height:5px;border-radius:5px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:6px}
-.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .3s}
-.act{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+h1{font-size:clamp(1.3rem,5vw,2rem);text-align:center;margin:14px 0 6px}
+.sub{text-align:center;color:var(--m);margin-bottom:14px;font-size:.92rem}
+.card{padding:16px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.tab{padding:12px 4px;border-radius:16px;border:1px solid var(--b);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-weight:600;font-size:.9rem}
+.drop{display:block;border:2px dashed var(--b);border-radius:20px;padding:26px 12px;text-align:center;cursor:pointer}
+.drop:hover{background:rgba(255,255,255,.1)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.f{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--m);min-width:0}
+.two{display:flex;gap:8px}
+input,select{background:rgba(255,255,255,.1);border:1px solid var(--b);color:#fff;padding:11px;border-radius:12px;font-size:1rem;width:100%;min-width:0}
+select option{color:#000}input[type=range]{padding:0;accent-color:var(--a)}
+input[type=color]{padding:2px;height:38px;width:48px}
+.sw{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sw button{width:38px;height:38px;border-radius:50%;border:2px solid var(--b);cursor:pointer}
+.sw button.on{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.4)}
+.chk{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:.88rem;color:var(--m)}
+.chk input{width:auto}
 .note{font-size:.8rem;color:var(--m);margin-top:10px}
-footer{text-align:center;padding:18px;color:var(--m);font-size:.95rem}
-footer b{color:#fff}
-.hide{display:none}
+.act{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{border:0;border-radius:14px;padding:12px 20px;font-weight:700;font-size:1rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--a),var(--p));box-shadow:0 6px 20px rgba(124,140,255,.45)}
+.btn.s{background:rgba(255,255,255,.12);border:1px solid var(--b);box-shadow:none}.btn:disabled{opacity:.5}
+.it{display:flex;gap:12px;padding:12px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.it img{width:72px;height:72px;object-fit:cover;border-radius:14px;border:1px solid var(--b)}
+.in{flex:1;min-width:150px;font-size:.88rem;line-height:1.5}.in b{overflow-wrap:anywhere}
+.ok{color:#7dffb3}.er{color:#ff9d9d}
+.bar{height:5px;border-radius:5px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--p));transition:width .3s}
+footer{text-align:center;padding:16px;color:var(--m)}footer b{color:#fff}
+.hide{display:none!important}
 </style>
 </head>
 <body>
-<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-<div class="wrap">
+<div class="bl" style="width:420px;height:420px;background:#5b6cff;top:-100px;left:-100px"></div>
+<div class="bl" style="width:380px;height:380px;background:#ff4fd8;bottom:-80px;right:-80px;animation-delay:-6s"></div>
+<div class="w">
+<header class="g"><b class="logo">📷 <span>PhotoPro</span></b><div class="lg"><button id="len" class="on">EN</button><button id="lhi">हिंदी</button></div></header>
 
-<header class="glass">
-  <div class="logo">📷 <span>PhotoPro</span></div>
-  <div class="lang"><button id="l-en" class="on">EN</button><button id="l-hi">हिंदी</button></div>
-</header>
+<!-- TOP AD: paste your ad code (AdSense etc.) inside this div -->
+<div class="ad g"><span data-i="adT"></span></div>
 
-<!-- ===== TOP AD SECTION: paste your ad code (e.g. Google AdSense) inside this div ===== -->
-<div class="ad glass" id="ad-top"><span data-i18n="adTop">Advertisement (Top)</span></div>
+<h1 data-i="h1"></h1><p class="sub" data-i="sub"></p>
 
-<h1 data-i18n="title">Compress & Enhance Photos</h1>
-<p class="sub" data-i18n="sub">Exact-size compression and HD upscaling. 100% private – photos never leave your device.</p>
-
-<div class="card glass">
-  <div class="tabs">
-    <button class="tab on" id="tab-c" data-i18n="tabC">🗜️ Compress to Size</button>
-    <button class="tab" id="tab-e" data-i18n="tabE">✨ Enhance to HD</button>
-  </div>
-
-  <label class="drop" id="drop">
-    <input type="file" id="file" accept="image/*" multiple hidden>
-    <div class="ic">🖼️</div>
-    <div data-i18n="drop">Tap to choose photos or drag & drop here</div>
-  </label>
-
-  <div class="row" id="ctl-c">
-    <div class="f"><span data-i18n="target">Target size</span>
-      <div style="display:flex;gap:8px"><input type="number" id="tv" value="50" min="1" step="1"><select id="tu" style="width:90px"><option>KB</option><option>MB</option></select></div></div>
-    <div class="f"><span data-i18n="fmt">Output format</span>
-      <select id="fmt"><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>
-  </div>
-
-  <div class="row hide" id="ctl-e">
-    <div class="f"><span data-i18n="scale">Upscale</span>
-      <select id="sc"><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option></select></div>
-    <div class="f"><span><span data-i18n="sharp">Sharpness</span>: <b id="shv">60</b>%</span>
-      <input type="range" id="sh" min="0" max="100" value="60"></div>
-  </div>
-  <p class="note hide" id="enote" data-i18n="enote">HD Enhance uses smart upscaling + sharpening + gentle color boost. Results improve clarity but cannot invent missing details.</p>
-
-  <div class="act">
-    <button class="btn" id="go" data-i18n="go">Start</button>
-    <button class="btn sec" id="dlAll" data-i18n="dlAll">Download All</button>
-    <button class="btn sec" id="clr" data-i18n="clr">Clear</button>
-  </div>
-  <div id="list"></div>
+<main class="card g">
+<div class="tabs"><button class="tab on" data-m="c" data-i="tc"></button><button class="tab" data-m="e" data-i="te"></button><button class="tab" data-m="b" data-i="tb"></button></div>
+<label class="drop" id="dz"><input type="file" id="fi" accept="image/*" multiple hidden><div style="font-size:2rem">🖼️</div><div data-i="drop"></div></label>
+<div class="row">
+ <div class="f mc"><span data-i="tg"></span><div class="two"><input type="number" id="tv" value="50" min="1"><select id="tu" style="width:84px"><option>KB</option><option>MB</option></select></div></div>
+ <div class="f me hide"><span data-i="res"></span><select id="rs"><option value="1920">Full HD (1920)</option><option value="2560">2K (2560)</option><option value="3840" selected>4K (3840)</option></select></div>
+ <div class="f me hide"><span><span data-i="sh"></span>: <b id="shv">60</b>%</span><input type="range" id="sh" min="0" max="100" value="60"></div>
+ <div class="f mb hide" style="grid-column:1/-1"><span data-i="bgc"></span><div class="sw" id="sw"></div></div>
+ <div class="f"><span data-i="fm"></span><select id="fmt"><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option><option value="image/png">PNG</option><option value="pdf">PDF</option></select></div>
 </div>
+<p class="note" id="nt"></p>
+<label class="chk"><input type="checkbox" id="au" checked><span data-i="au"></span></label>
+<div class="act"><button class="btn" id="go" data-i="go"></button><button class="btn s" id="da" data-i="da"></button><button class="btn s" id="cl" data-i="cl"></button></div>
+<div id="ls"></div>
+</main>
 
-<!-- ===== BOTTOM AD SECTION: paste your ad code inside this div ===== -->
-<div class="ad glass" id="ad-bottom"><span data-i18n="adBot">Advertisement (Bottom)</span></div>
-
-<footer class="glass"><span data-i18n="made">Made in India 🇮🇳</span> · <b data-i18n="by">Made by V Pandey</b></footer>
+<!-- BOTTOM AD: paste your ad code inside this div -->
+<div class="ad g"><span data-i="adB"></span></div>
+<footer class="g"><span data-i="mi"></span> · <b data-i="by"></b></footer>
 </div>
 
 <script>
-const I18N={
-en:{title:"Compress & Enhance Photos",sub:"Exact-size compression and HD upscaling. 100% private – photos never leave your device.",tabC:"🗜️ Compress to Size",tabE:"✨ Enhance to HD",drop:"Tap to choose photos or drag & drop here",target:"Target size",fmt:"Output format",scale:"Upscale",sharp:"Sharpness",enote:"HD Enhance uses smart upscaling + sharpening + gentle color boost. Results improve clarity but cannot invent missing details.",go:"Start",dlAll:"Download All",clr:"Clear",adTop:"Advertisement (Top)",adBot:"Advertisement (Bottom)",made:"Made in India 🇮🇳",by:"Made by V Pandey",original:"Original",result:"Result",pending:"Ready",working:"Processing…",done:"Done",fail:"Could not reach target size",dl:"Download",already:"Original was already smaller; re-encoded"},
-hi:{title:"फ़ोटो कंप्रेस और HD करें",sub:"सटीक साइज़ में कंप्रेस और HD अपस्केल। 100% सुरक्षित – फ़ोटो आपके डिवाइस से बाहर नहीं जाती।",tabC:"🗜️ साइज़ में कंप्रेस",tabE:"✨ HD में बदलें",drop:"फ़ोटो चुनने के लिए टैप करें या यहाँ ड्रैग & ड्रॉप करें",target:"टारगेट साइज़",fmt:"आउटपुट फॉर्मेट",scale:"अपस्केल",sharp:"शार्पनेस",enote:"HD Enhance स्मार्ट अपस्केलिंग + शार्पनिंग + हल्का कलर बूस्ट करता है। इससे फ़ोटो साफ़ दिखती है, पर गायब डिटेल नहीं बना सकता।",go:"शुरू करें",dlAll:"सब डाउनलोड करें",clr:"साफ़ करें",adTop:"विज्ञापन (ऊपर)",adBot:"विज्ञापन (नीचे)",made:"मेड इन इंडिया 🇮🇳",by:"मेड बाय वी पांडे",original:"ओरिजिनल",result:"नतीजा",pending:"तैयार",working:"प्रोसेस हो रहा है…",done:"पूरा हुआ",fail:"टारगेट साइज़ तक नहीं पहुँच सका",dl:"डाउनलोड",already:"ओरिजिनल पहले से छोटी थी; फिर से एनकोड की गई"}
-};
-let lang=localStorage.getItem('lang')||'en',mode='c',items=[],busy=false;
-const $=id=>document.getElementById(id),t=k=>I18N[lang][k];
-const fmtB=b=>b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB';
+const L={en:{h1:"Compress, 4K HD & Background Remover",sub:"Fast, free and private. Photos never leave your device.",tc:"🗜️ Compress",te:"✨ 4K HD",tb:"🪄 BG Remove",drop:"Tap to choose photos or drag & drop here",tg:"Target size",res:"Resolution",sh:"Sharpness",bgc:"Background colour",fm:"Output format",au:"Auto-start when photos are added",go:"Start",da:"Download All",cl:"Clear",adT:"Advertisement (Top)",adB:"Advertisement (Bottom)",mi:"Made in India 🇮🇳",by:"Made by V Pandey",o:"Original",r:"Result",ready:"Ready",wk:"Processing…",ok:"Done",fail:"Failed – try a bigger size or another photo",dl:"Download",bgn:"First use loads an AI model (~40 MB, needs internet). If it fails, quick mode for plain backgrounds is used.",qk:"Quick mode used (best for plain backgrounds)",en:"Any photo is converted so its longest side equals the chosen resolution, with smart sharpening."},
+hi:{h1:"कंप्रेस, 4K HD और बैकग्राउंड रिमूवर",sub:"तेज़, मुफ़्त और सुरक्षित। फ़ोटो आपके डिवाइस से बाहर नहीं जाती।",tc:"🗜️ कंप्रेस",te:"✨ 4K HD",tb:"🪄 BG हटाएँ",drop:"फ़ोटो चुनने के लिए टैप करें या यहाँ ड्रैग & ड्रॉप करें",tg:"टारगेट साइज़",res:"रेज़ोल्यूशन",sh:"शार्पनेस",bgc:"बैकग्राउंड रंग",fm:"आउटपुट फॉर्मेट",au:"फ़ोटो डालते ही अपने-आप शुरू करें",go:"शुरू करें",da:"सब डाउनलोड करें",cl:"साफ़ करें",adT:"विज्ञापन (ऊपर)",adB:"विज्ञापन (नीचे)",mi:"मेड इन इंडिया 🇮🇳",by:"मेड बाय वी पांडे",o:"ओरिजिनल",r:"नतीजा",ready:"तैयार",wk:"प्रोसेस हो रहा है…",ok:"पूरा हुआ",fail:"नहीं हो पाया – बड़ा साइज़ या दूसरी फ़ोटो आज़माएँ",dl:"डाउनलोड",bgn:"पहली बार AI मॉडल लोड होगा (~40 MB, इंटरनेट चाहिए)। न चले तो सादे बैकग्राउंड के लिए क्विक मोड चलेगा।",qk:"क्विक मोड चला (सादे बैकग्राउंड के लिए सबसे अच्छा)",en:"कोई भी फ़ोटो चुने हुए रेज़ोल्यूशन की लंबी साइड में बदल जाती है, स्मार्ट शार्पनिंग के साथ।"}};
+const $=i=>document.getElementById(i),t=k=>L[lang][k]||k,sz=b=>b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB',tick=()=>new Promise(r=>setTimeout(r,15));
+let lang='en',mode='c',bg='transparent',items=[],busy=0;
+try{lang=localStorage.getItem('lang')||'en'}catch(e){}
 
-function applyLang(){
-  document.documentElement.lang=lang;
-  document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=t(e.dataset.i18n));
-  $('l-en').classList.toggle('on',lang==='en');$('l-hi').classList.toggle('on',lang==='hi');
-  localStorage.setItem('lang',lang);render();
-}
-$('l-en').onclick=()=>{lang='en';applyLang()};
-$('l-hi').onclick=()=>{lang='hi';applyLang()};
-
-function setMode(m){
-  mode=m;$('tab-c').classList.toggle('on',m==='c');$('tab-e').classList.toggle('on',m==='e');
-  $('ctl-c').classList.toggle('hide',m!=='c');$('ctl-e').classList.toggle('hide',m!=='e');$('enote').classList.toggle('hide',m!=='e');
-}
-$('tab-c').onclick=()=>setMode('c');$('tab-e').onclick=()=>setMode('e');
+function setMode(m){mode=m;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+ ['c','e','b'].forEach(k=>document.querySelectorAll('.m'+k).forEach(e=>e.classList.toggle('hide',k!==m)));
+ $('nt').textContent=m==='e'?t('en'):m==='b'?t('bgn'):''}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{setMode(b.dataset.m);$('fmt').value=b.dataset.m==='b'?'image/png':'image/jpeg'});
+function applyLang(){document.documentElement.lang=lang;document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+ $('len').classList.toggle('on',lang==='en');$('lhi').classList.toggle('on',lang==='hi');try{localStorage.setItem('lang',lang)}catch(e){}setMode(mode);ui()}
+$('len').onclick=()=>{lang='en';applyLang()};$('lhi').onclick=()=>{lang='hi';applyLang()};
 $('sh').oninput=e=>$('shv').textContent=e.target.value;
 
-function addFiles(fl){
-  [...fl].filter(f=>f.type.startsWith('image/')).forEach(f=>items.push({file:f,thumb:URL.createObjectURL(f),res:null,status:'pending',p:0}));
-  render();
-}
-$('file').onchange=e=>{addFiles(e.target.files);e.target.value=''};
-['dragover','dragenter'].forEach(ev=>$('drop').addEventListener(ev,e=>{e.preventDefault();$('drop').classList.add('over')}));
-['dragleave','drop'].forEach(ev=>$('drop').addEventListener(ev,e=>{e.preventDefault();$('drop').classList.remove('over')}));
-$('drop').addEventListener('drop',e=>addFiles(e.dataTransfer.files));
-$('clr').onclick=()=>{items.forEach(i=>{URL.revokeObjectURL(i.thumb);i.res&&URL.revokeObjectURL(i.res.url)});items=[];render()};
+/* background colour swatches */
+[['transparent'],['#ffffff'],['#1e73e8'],['#d62828'],['#ff8c00'],['#2e9e4f']].forEach(([c])=>{
+ const b=document.createElement('button');b.dataset.c=c;
+ b.style.background=c==='transparent'?'repeating-conic-gradient(#bbb 0 25%,#fff 0 50%) 0 0/14px 14px':c;
+ if(c===bg)b.classList.add('on');
+ b.onclick=()=>{bg=c;document.querySelectorAll('.sw button').forEach(x=>x.classList.toggle('on',x===b))};$('sw').appendChild(b)});
+const cu=document.createElement('input');cu.type='color';cu.value='#00a8ff';
+cu.oninput=()=>{bg=cu.value;document.querySelectorAll('.sw button').forEach(x=>x.classList.remove('on'))};$('sw').appendChild(cu);
 
-function render(){
-  $('list').innerHTML=items.map((it,i)=>{
-    const st=it.status==='done'?`<span class="ok">✔ ${t('done')}</span>`:it.status==='fail'?`<span class="err">✖ ${t('fail')}</span>`:it.status==='work'?t('working'):t('pending');
-    const res=it.res?`<br>${t('result')}: <b>${fmtB(it.res.blob.size)}</b> (${it.res.w}×${it.res.h})${it.note?`<br><small>${it.note}</small>`:''}`:'';
-    return `<div class="item glass"><img src="${it.res?it.res.url:it.thumb}" alt="">
-    <div class="info"><b>${it.file.name}</b><br>${t('original')}: ${fmtB(it.file.size)}${res}<br>${st}
-    <div class="bar"><i style="width:${it.p}%"></i></div></div>
-    ${it.res?`<button class="btn" onclick="dl(${i})">⬇ ${t('dl')}</button>`:''}</div>`}).join('');
-}
+/* files: read fully into memory at once (fixes Android "file becomes unreadable") */
+async function add(fl){
+ for(const f of [...fl]){if(!f.type.startsWith('image/'))continue;
+  try{const blob=new Blob([await f.arrayBuffer()],{type:f.type});
+   items.push({name:f.name.replace(/[<>&"]/g,''),size:f.size,blob,th:URL.createObjectURL(blob),s:'p',p:0})}catch(e){}}
+ ui();if($('au').checked)go(0)}
+$('fi').onchange=async e=>{await add(e.target.files);e.target.value=''};
+['dragover','dragenter'].forEach(v=>$('dz').addEventListener(v,e=>e.preventDefault()));
+$('dz').addEventListener('drop',e=>{e.preventDefault();add(e.dataTransfer.files)});
+$('cl').onclick=()=>{items=[];ui()};
 
-function loadImg(src){return new Promise((ok,no)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=no;im.src=src})}
-function toBlob(c,m,q){return new Promise(r=>c.toBlob(r,m,q))}
-function mkCanvas(w,h){const c=document.createElement('canvas');c.width=Math.max(1,Math.round(w));c.height=Math.max(1,Math.round(h));return c}
-function draw(src,w,h,mime){
-  const c=mkCanvas(w,h),x=c.getContext('2d');
-  if(mime==='image/jpeg'){x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height)}
-  x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.drawImage(src,0,0,c.width,c.height);return c;
-}
-const ext=m=>m==='image/webp'?'webp':'jpg';
+function ui(){$('ls').innerHTML=items.map((it,i)=>{const r=it.r;
+ return `<div class="it g"><img src="${r&&r.mime!=='pdf'?r.url:it.th}"><div class="in"><b>${it.name}</b><br>${t('o')}: ${sz(it.size)}${r?`<br>${t('r')}: <b>${sz(r.blob.size)}</b> (${r.w}×${r.h})`:''}<br>${it.s==='d'?'<span class="ok">✔ '+t('ok')+'</span>':it.s==='f'?'<span class="er">✖ '+t('fail')+'</span>':it.s==='w'?t('wk'):t('ready')}${it.msg?'<br><small>'+it.msg+'</small>':''}<div class="bar"><i style="width:${it.p}%"></i></div></div>${r?`<button class="btn" onclick="dl(${i})">⬇ ${t('dl')}</button>`:''}</div>`}).join('')}
 
-/* ---------- Compress: binary search quality, then shrink dimensions if needed ---------- */
-async function compress(img,file,target,mime,prog){
-  let w=img.naturalWidth,h=img.naturalHeight;
-  for(let round=0;round<25;round++){
-    const c=draw(img,w,h,mime);
-    let lo=0.02,hi=0.95,best=null;
-    const hiB=await toBlob(c,mime,hi);
-    if(hiB.size<=target)best=hiB;
-    else{
-      for(let k=0;k<9;k++){
-        const q=(lo+hi)/2,b=await toBlob(c,mime,q);
-        if(b.size<=target){best=b;lo=q}else hi=q;
-      }
-    }
-    prog(Math.min(95,(round+1)*8));
-    if(best)return{blob:best,w:c.width,h:c.height};
-    const ratio=Math.sqrt(target/hiB.size);          // smart shrink factor
-    const f=Math.min(.92,Math.max(.5,ratio*1.05));
-    w*=f;h*=f;
-    if(w<16||h<16)return null;
-  }
-  return null;
-}
+/* helpers */
+async function bmp(b){try{return await createImageBitmap(b)}catch(e){const u=URL.createObjectURL(b);return await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=u})}}
+const dim=s=>[s.naturalWidth||s.width,s.naturalHeight||s.height];
+function drw(s,w,h,f){const c=document.createElement('canvas');c.width=Math.max(1,Math.round(w));c.height=Math.max(1,Math.round(h));const x=c.getContext('2d');if(f){x.fillStyle=f;x.fillRect(0,0,c.width,c.height)}x.imageSmoothingQuality='high';x.drawImage(s,0,0,c.width,c.height);return c}
+const tb=(c,m,q)=>new Promise(r=>c.toBlob(r,m,q));
+const fill=f=>f==='image/png'||f==='image/webp'?0:'#fff';
 
-/* ---------- Enhance: progressive upscale + unsharp-style convolution + gentle boost ---------- */
-function sharpen(c,amount){
-  if(amount<=0)return c;
-  const x=c.getContext('2d'),w=c.width,h=c.height,src=x.getImageData(0,0,w,h),s=src.data,out=x.createImageData(w,h),d=out.data;
-  const a=amount*0.9,c0=1+4*a;
-  for(let y=0;y<h;y++){
-    const ym=y>0?y-1:y,yp=y<h-1?y+1:y;
-    for(let xx=0;xx<w;xx++){
-      const xm=xx>0?xx-1:xx,xp=xx<w-1?xx+1:xx,i=(y*w+xx)*4,u=(ym*w+xx)*4,dn=(yp*w+xx)*4,l=(y*w+xm)*4,r=(y*w+xp)*4;
-      for(let k=0;k<3;k++){
-        const v=s[i+k]*c0-a*(s[u+k]+s[dn+k]+s[l+k]+s[r+k]);
-        d[i+k]=v<0?0:v>255?255:v;
-      }
-      d[i+3]=s[i+3];
-    }
-  }
-  x.putImageData(out,0,0);return c;
-}
-async function enhance(img,scale,amount,mime,prog){
-  const MAXPX=36e6,W=img.naturalWidth,H=img.naturalHeight;
-  while(W*scale*H*scale>MAXPX&&scale>1)scale-=.5;
-  const tw=Math.round(W*scale),th=Math.round(H*scale);
-  let cur=draw(img,W,H,mime);
-  while(cur.width<tw){                               // step-wise upscale keeps edges cleaner
-    const nw=Math.min(tw,cur.width*2),nh=Math.min(th,cur.height*2);
-    cur=draw(cur,nw,nh,mime);
-    await new Promise(r=>setTimeout(r));
-  }
-  prog(55);
-  const x=cur.getContext('2d');
-  const tmp=draw(cur,cur.width,cur.height,mime);     // gentle contrast/saturation boost
-  if('filter' in x){x.filter='contrast(1.06) saturate(1.08) brightness(1.01)';x.drawImage(tmp,0,0);x.filter='none'}
-  await new Promise(r=>setTimeout(r));
-  sharpen(cur,amount/100*0.55);
-  prog(90);
-  const blob=await toBlob(cur,mime,.93);
-  return{blob,w:cur.width,h:cur.height};
-}
+/* minimal PDF writer (embeds a JPEG) */
+async function mk(jb,w,h){const j=new Uint8Array(await jb.arrayBuffer()),en=new TextEncoder(),P=[],O=[];let n=0;
+ const add=x=>{const u=typeof x==='string'?en.encode(x):x;P.push(u);n+=u.length},o=(k,s)=>{O[k]=n;add(`${k} 0 obj\n${s}\nendobj\n`)};
+ add('%PDF-1.4\n');o(1,'<</Type/Catalog/Pages 2 0 R>>');o(2,'<</Type/Pages/Kids[3 0 R]/Count 1>>');
+ o(3,`<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${w} ${h}]/Resources<</XObject<</I 4 0 R>>>>/Contents 5 0 R>>`);
+ O[4]=n;add(`4 0 obj\n<</Type/XObject/Subtype/Image/Width ${w}/Height ${h}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${j.length}>>\nstream\n`);add(j);add('\nendstream\nendobj\n');
+ const c=`q ${w} 0 0 ${h} 0 0 cm /I Do Q`;o(5,`<</Length ${c.length}>>\nstream\n${c}\nendstream`);
+ const xr=n;let x='xref\n0 6\n0000000000 65535 f \n';for(let i=1;i<6;i++)x+=String(O[i]).padStart(10,'0')+' 00000 n \n';
+ add(x+`trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n${xr}\n%%EOF`);return new Blob(P,{type:'application/pdf'})}
+async function out(c,f,q){return f==='pdf'?mk(await tb(c,'image/jpeg',q),c.width,c.height):tb(c,f,q)}
 
-$('go').onclick=async()=>{
-  if(busy||!items.length)return;busy=true;$('go').disabled=true;
-  const mime=$('fmt').value,target=Math.max(1,+$('tv').value||1)*($('tu').value==='MB'?1048576:1024);
-  for(const it of items){
-    if(it.status==='done')continue;
-    it.status='work';it.p=5;it.note='';render();
-    try{
-      const url=URL.createObjectURL(it.file),img=await loadImg(url);
-      const prog=p=>{it.p=p;render()};
-      let r;
-      if(mode==='c'){
-        r=await compress(img,it.file,target,mime,prog);
-        if(r&&it.file.size<=target)it.note=t('already');
-      }else r=await enhance(img,+$('sc').value,+$('sh').value,mime,prog);
-      URL.revokeObjectURL(url);
-      if(r){it.res={...r,url:URL.createObjectURL(r.blob),mime};it.status='done';it.p=100}
-      else{it.status='fail';it.p=0}
-    }catch(e){it.status='fail';it.p=0}
-    render();
-    await new Promise(r=>setTimeout(r,30));
-  }
-  busy=false;$('go').disabled=false;
-};
+/* 1) compress to exact target: quality search, then smart shrink */
+async function fit(s,W,H,f,T){
+ const pdf=f==='pdf',m=pdf?'image/jpeg':f,tg=Math.max(T-(pdf?900:0),200),bg0=fill(m);let w=W,h=H;
+ const bpp=tg/(W*H);if(bpp<.1){const k=Math.max(.03,Math.sqrt(bpp/.2));w*=k;h*=k}
+ for(let n=0;n<12;n++){
+  const c=drw(s,w,h,bg0);let best,sm;
+  if(m==='image/png'){sm=await tb(c,m);if(sm.size<=tg)best=sm}
+  else{const hi=await tb(c,m,.92);
+   if(hi.size<=tg)best=hi;
+   else{sm=await tb(c,m,.3);
+    if(sm.size<=tg){best=sm;let lo=.3,up=.92;for(let k=0;k<7;k++){const q=(lo+up)/2,b=await tb(c,m,q);if(b.size<=tg){best=b;lo=q}else up=q}}}}
+  if(best)return{blob:pdf?await mk(best,c.width,c.height):best,w:c.width,h:c.height};
+  const k=Math.max(.15,Math.min(.9,Math.sqrt(tg/sm.size)*.96));w*=k;h*=k;if(w<8||h<8)break}
+ return null}
 
-function dl(i){
-  const it=items[i];if(!it||!it.res)return;
-  const a=document.createElement('a'),base=it.file.name.replace(/\.[^.]+$/,'');
-  a.href=it.res.url;a.download=`${base}_${mode==='c'?'compressed':'HD'}.${ext(it.res.mime)}`;
-  document.body.appendChild(a);a.click();a.remove();
-}
-$('dlAll').onclick=async()=>{
-  for(let i=0;i<items.length;i++){if(items[i].res){dl(i);await new Promise(r=>setTimeout(r,350))}}
-};
+/* 2) 4K enhance: stepwise upscale + sharpen */
+function sharp(c,a){if(a<=0)return;const x=c.getContext('2d'),w=c.width,h=c.height,d=x.getImageData(0,0,w,h).data,o=new Uint8ClampedArray(d.length),k=1+4*a;
+ for(let y=0;y<h;y++){const u=(y?y-1:y)*w,v=(y<h-1?y+1:y)*w,r=y*w;for(let X=0;X<w;X++){const l=X?X-1:X,q=X<w-1?X+1:X,i=(r+X)*4,A=(u+X)*4,B=(v+X)*4,C=(r+l)*4,D=(r+q)*4;
+  for(let j=0;j<3;j++)o[i+j]=d[i+j]*k-a*(d[A+j]+d[B+j]+d[C+j]+d[D+j]);o[i+3]=d[i+3]}}
+ x.putImageData(new ImageData(o,w,h),0,0)}
+async function enh(s,W,H,f,Lg,amt){
+ const k=Lg/Math.max(W,H),tw=Math.round(W*k),th=Math.round(H*k);let c=drw(s,W,H,fill(f));
+ while(c.width*2<tw){c=drw(c,c.width*2,c.height*2);await tick()}
+ if(c.width!==tw)c=drw(c,tw,th);
+ await tick();sharp(c,amt/100*.55);return{blob:await out(c,f,.93),w:tw,h:th}}
 
+/* 3) background remover: AI model, fallback = quick flood-fill */
+async function quick(blob){
+ const s=await bmp(blob),[W0,H0]=dim(s),k=Math.min(1,1600/Math.max(W0,H0)),w=Math.round(W0*k),h=Math.round(H0*k),c=drw(s,w,h,0),x=c.getContext('2d'),im=x.getImageData(0,0,w,h),p=im.data,bd=[];
+ for(let i=0;i<w;i++)bd.push(i,(h-1)*w+i);for(let j=0;j<h;j++)bd.push(j*w,j*w+w-1);
+ let R=0,G=0,B=0;for(const i of bd){R+=p[i*4];G+=p[i*4+1];B+=p[i*4+2]}R/=bd.length;G/=bd.length;B/=bd.length;
+ const ok=i=>(p[i*4]-R)**2+(p[i*4+1]-G)**2+(p[i*4+2]-B)**2<4500,seen=new Uint8Array(w*h),st=[];
+ for(const i of bd)if(!seen[i]&&ok(i)){seen[i]=1;st.push(i)}
+ while(st.length){const i=st.pop(),X=i%w,Y=(i-X)/w;p[i*4+3]=0;
+  for(const j of [X>0?i-1:-1,X<w-1?i+1:-1,Y>0?i-w:-1,Y<h-1?i+w:-1])if(j>=0&&!seen[j]&&ok(j)){seen[j]=1;st.push(j)}}
+ x.putImageData(im,0,0);return tb(c,'image/png')}
+async function rm(b,pg){
+ try{const m=await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm');
+  return{b:await m.removeBackground(b,{output:{format:'image/png'},progress:(k,a,tt)=>pg(Math.min(90,10+Math.round(80*a/(tt||1))))})}}
+ catch(e){return{b:await quick(b),q:1}}}
+
+/* run */
+async function run(it,f,T){
+ it.s='w';it.p=10;it.msg='';ui();await tick();
+ try{let r;
+  if(mode==='b'){const q=await rm(it.blob,p=>{it.p=p;ui()});if(q.q)it.msg=t('qk');
+   const b=await bmp(q.b),[w,h]=dim(b),c=drw(b,w,h,bg!=='transparent'?bg:fill(f));r={blob:await out(c,f,.95),w,h}}
+  else{const b=await bmp(it.blob),[w,h]=dim(b);r=mode==='c'?await fit(b,w,h,f,T):await enh(b,w,h,f,+$('rs').value,+$('sh').value)}
+  if(r&&r.blob){if(it.r)URL.revokeObjectURL(it.r.url);r.mime=f;r.md=mode;r.url=URL.createObjectURL(r.blob);it.r=r;it.s='d';it.p=100}else{it.s='f';it.p=0}
+ }catch(e){it.s='f';it.p=0;it.msg=String(e&&e.message||e).slice(0,80)}
+ ui()}
+async function go(all){
+ if(busy)return;busy=1;$('go').disabled=true;
+ const f=$('fmt').value,T=Math.max(1,+$('tv').value||1)*($('tu').value==='MB'?1048576:1024);
+ for(let i=0;i<items.length;i++){if(!all&&items[i].s==='d')continue;await run(items[i],f,T)}
+ busy=0;$('go').disabled=false}
+$('go').onclick=()=>go(1);
+
+function dl(i){const it=items[i];if(!it||!it.r)return;const a=document.createElement('a'),E={'image/jpeg':'jpg','image/webp':'webp','image/png':'png',pdf:'pdf'}[it.r.mime]||'png';
+ a.href=it.r.url;a.download=it.name.replace(/\.[^.]+$/,'')+'_'+({c:'small',e:'4K',b:'nobg'}[it.r.md])+'.'+E;document.body.appendChild(a);a.click();a.remove()}
+$('da').onclick=async()=>{for(let i=0;i<items.length;i++)if(items[i].r){dl(i);await new Promise(r=>setTimeout(r,400))}};
 applyLang();
 </script>
 </body>
-  </html>
+</html>
