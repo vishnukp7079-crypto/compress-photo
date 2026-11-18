@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Photo Compressor, 4K HD & Background Remover – Made by V Pandey</title>
-<meta name="description" content="Compress photos to exact KB, 4K HD enhance with live Lightroom-style controls, remove background with brush editor. Free, private, made in India.">
+<meta name="description" content="Compress photos to exact KB, 4K HD enhance with live Lightroom-style controls, remove background, crop to passport size. Free, private, made in India.">
 <style>
 :root{--b:rgba(255,255,255,.28);--m:#d3d9ff;--a:#7c8cff;--p:#ff7ce5}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -28,9 +28,10 @@ h1{font-size:clamp(1.3rem,5vw,2rem);text-align:center;margin:14px 0 6px}
 .drop:hover{background:rgba(255,255,255,.1)}
 .pv{position:sticky;top:4px;z-index:5;padding:8px;margin-top:14px;text-align:center;-webkit-user-select:none;user-select:none}
 .st{font-size:.85rem;color:var(--m);padding:4px;display:none}
-#cv{max-width:100%;max-height:34vh;border-radius:12px;display:block;margin:0 auto;background:repeating-conic-gradient(#bbb 0 25%,#fff 0 50%) 0 0/16px 16px}
+#cv,#mc{max-width:100%;max-height:34vh;border-radius:12px;display:block;margin:0 auto;background:repeating-conic-gradient(#bbb 0 25%,#fff 0 50%) 0 0/16px 16px}
+#mc{max-height:36vh;touch-action:none;margin:8px auto}
 .cr{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-.chip{padding:8px 13px;border-radius:999px;border:1px solid var(--b);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-size:.86rem;-webkit-touch-callout:none;touch-action:none}
+.chip{padding:8px 13px;border-radius:999px;border:1px solid var(--b);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-size:.86rem;-webkit-touch-callout:none}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .f{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--m);min-width:0}
 .two{display:flex;gap:8px}
@@ -44,7 +45,7 @@ select option{color:#000}input[type=range]{padding:0;accent-color:var(--a)}
 .chk{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:.88rem;color:var(--m)}.chk input{width:auto}
 .note{font-size:.8rem;color:var(--m);margin-top:8px;display:block}
 .act{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.btn{border:0;border-radius:14px;padding:12px 20px;font-weight:700;font-size:1rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--a),var(--p));box-shadow:0 6px 20px rgba(124,140,255,.45)}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:700;font-size:1rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--a),var(--p));box-shadow:0 6px 20px rgba(124,140,255,.45)}
 .btn.s{background:rgba(255,255,255,.12);border:1px solid var(--b);box-shadow:none}.btn:disabled{opacity:.5}
 .it{display:flex;gap:12px;padding:12px;margin-top:12px;align-items:center;flex-wrap:wrap}
 .it img{width:110px;height:110px;object-fit:cover;border-radius:14px;border:1px solid var(--b);background:rgba(255,255,255,.1);display:block}
@@ -53,6 +54,8 @@ select option{color:#000}input[type=range]{padding:0;accent-color:var(--a)}
 .ok{color:#7dffb3}.er{color:#ff9d9d}
 .bar{height:5px;border-radius:5px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:6px}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--p));transition:width .3s}
+#md{position:fixed;inset:0;z-index:50;background:rgba(5,8,25,.8);display:flex;align-items:flex-start;justify-content:center;padding:10px;overflow:auto}
+.mdb{width:100%;max-width:520px;padding:14px;margin:auto;background:rgba(30,30,70,.85)}
 footer{text-align:center;padding:16px;color:var(--m)}footer b{color:#fff}
 .hide{display:none!important}
 </style>
@@ -77,9 +80,9 @@ footer{text-align:center;padding:16px;color:var(--m)}footer b{color:#fff}
 <div id="pvw" class="pv g hide">
  <div id="st" class="st"></div>
  <canvas id="cv" width="4" height="4"></canvas>
- <div data-modes="e"><div class="cr"><button class="chip" id="cmp" data-i="cmp"></button></div><small id="chg" class="note"></small></div>
+ <div data-modes="e"><div class="cr"><button class="chip" id="cmp" style="touch-action:none" data-i="cmp"></button></div><small id="chg" class="note"></small></div>
  <div data-modes="b">
-  <div class="cr"><button class="chip on" data-t="m" data-i="mv"></button><button class="chip" data-t="b" data-i="br"></button><button class="chip" data-t="e" data-i="er"></button><button class="chip" id="un" data-i="un"></button></div>
+  <div class="cr"><button class="chip on" data-t="m" data-i="mv"></button><button class="chip" data-t="b" data-i="br"></button><button class="chip" data-t="e" data-i="er"></button><button class="chip" id="cp" data-i="crp"></button><button class="chip" id="un" data-i="un"></button></div>
   <div class="row" style="margin-top:6px;gap:8px">
    <div class="f"><span><span id="bsl" data-i="bsz"></span> <b id="bsv">40</b></span><input type="range" id="bs" min="5" max="120" value="40"></div>
    <div class="f"><span><span data-i="zm"></span> <b id="zv">100</b>%</span><input type="range" id="zs" min="20" max="250" value="100"></div></div>
@@ -89,7 +92,7 @@ footer{text-align:center;padding:16px;color:var(--m)}footer b{color:#fff}
 <div id="dlbox" class="hide" style="margin-top:12px"></div>
 
 <div class="row">
- <div class="f" data-modes="c"><span data-i="tg"></span><div class="two"><input type="number" id="tv" value="50" min="1"><select id="tu" style="width:84px"><option>KB</option><option>MB</option></select></div></div>
+ <div class="f" data-modes="c"><span data-i="tg"></span><div class="two"><input type="number" id="tv" value="50" min="1"><select id="tu" style="width:104px;padding:11px 6px"><option>KB</option><option>MB</option></select></div></div>
 
  <div class="f hide" data-modes="e" style="grid-column:1/-1"><button class="btn" id="auto" data-i="auto"></button></div>
  <div class="f hide" data-modes="e" style="grid-column:1/-1"><div class="cr" style="justify-content:flex-start;margin:0"><button class="chip" onclick="preset('night')" data-i="pn"></button><button class="chip" onclick="preset('mint')" data-i="pm"></button><button class="chip" onclick="preset('')" data-i="pr"></button></div></div>
@@ -121,13 +124,23 @@ footer{text-align:center;padding:16px;color:var(--m)}footer b{color:#fff}
 <footer class="g"><span data-i="mi"></span> · <b data-i="by"></b></footer>
 </div>
 
+<!-- SAVE AS / CROP WINDOW -->
+<div id="md" class="hide"><div class="mdb g">
+ <b data-i="sas"></b>
+ <canvas id="mc" width="4" height="4"></canvas>
+ <div class="cr" id="rt"></div>
+ <div class="f" style="margin-top:10px"><span><span data-i="cz"></span> <b id="mzv">100</b>%</span><input type="range" id="mz" min="30" max="100" value="100"></div>
+ <small class="note"><b id="mi2"></b> · <span data-i="mnote"></span></small>
+ <div class="act"><button class="btn" id="mok" data-i="mk"></button><button class="btn s" id="mcr" data-i="ac"></button><button class="btn s" id="mun" data-i="uc"></button><button class="btn s" id="mcn" data-i="ca"></button></div>
+</div></div>
+
 <script>
-const L={en:{h1:"Compress, 4K HD & Background Remover",sub:"Fast, free and private. Photos never leave your device.",tc:"🗜️ Compress",te:"✨ 4K HD",tb:"🪄 BG Remove",drop:"Tap to choose photos or drag & drop here",tg:"Target size",res:"Resolution",bgc:"Background colour",bm:"BG mode",bmp:"Person (fast)",bmo:"Any object (HQ, slow first time)",bmq:"Plain background (instant)",fm:"Output format",au:"Auto-start when photos are added",go:"Start",save:"💾 Save / Download",rr:"↻ Remove again",da:"Download All",cl:"Clear",adT:"Advertisement (Top)",adB:"Advertisement (Bottom)",mi:"Made in India 🇮🇳",by:"Made by V Pandey",o:"Original",r:"Result",ready:"Ready",wk:"Processing…",ok:"Done",fail:"Failed",dl:"Download",auto:"⚡ Auto 4K (best settings automatically)",pn:"🌙 Night",pm:"🌿 Mint",pr:"↺ Reset",en:"Move any slider and watch the photo change live above. Auto 4K sets everything for you. Press Save to create the final file.",ed:"Use Brush to bring back parts that were cut, Eraser to remove leftover background, Move to drag the photo.",ld:"Loading AI",fb:"HQ AI failed, trying fast AI…",fb2:"AI unavailable, using quick mode (plain backgrounds only)",qk:"Quick mode used",cmp:"👁 Hold to see original",nochg:"No changes yet",mv:"✋ Move",br:"🖌 Brush (restore)",er:"🧽 Eraser",un:"↶ Undo",sj:"Subject",bgt:"Background",bsz:"Brush size",zm:"Zoom",hint:"Move: drag the chosen layer. Brush/Eraser: rub on the photo.",rend:"Rendering final image…"},
-hi:{h1:"कंप्रेस, 4K HD और बैकग्राउंड रिमूवर",sub:"तेज़, मुफ़्त और सुरक्षित। फ़ोटो आपके डिवाइस से बाहर नहीं जाती।",tc:"🗜️ कंप्रेस",te:"✨ 4K HD",tb:"🪄 BG हटाएँ",drop:"फ़ोटो चुनने के लिए टैप करें या यहाँ ड्रैग & ड्रॉप करें",tg:"टारगेट साइज़",res:"रेज़ोल्यूशन",bgc:"बैकग्राउंड रंग",bm:"BG मोड",bmp:"इंसान (तेज़)",bmo:"कोई भी चीज़ (HQ, पहली बार धीमा)",bmq:"सादा बैकग्राउंड (तुरंत)",fm:"आउटपुट फॉर्मेट",au:"फ़ोटो डालते ही अपने-आप शुरू करें",go:"शुरू करें",save:"💾 सेव / डाउनलोड",rr:"↻ फिर से हटाएँ",da:"सब डाउनलोड करें",cl:"साफ़ करें",adT:"विज्ञापन (ऊपर)",adB:"विज्ञापन (नीचे)",mi:"मेड इन इंडिया 🇮🇳",by:"मेड बाय वी पांडे",o:"ओरिजिनल",r:"नतीजा",ready:"तैयार",wk:"प्रोसेस हो रहा है…",ok:"पूरा हुआ",fail:"नहीं हो पाया",dl:"डाउनलोड",auto:"⚡ ऑटो 4K (सबसे अच्छी सेटिंग अपने-आप)",pn:"🌙 नाइट",pm:"🌿 मिंट",pr:"↺ रीसेट",en:"कोई भी स्लाइडर हिलाइए, ऊपर फ़ोटो लाइव बदलती दिखेगी। ऑटो 4K सब खुद सेट कर देता है। फाइनल फ़ाइल के लिए सेव दबाएँ।",ed:"कटा हुआ हिस्सा वापस लाने के लिए ब्रश, बचा हुआ बैकग्राउंड मिटाने के लिए रबड़, और फ़ोटो खिसकाने के लिए मूव इस्तेमाल करें।",ld:"AI लोड हो रहा है",fb:"HQ AI नहीं चला, तेज़ AI आज़मा रहे हैं…",fb2:"AI नहीं चला, क्विक मोड चल रहा है (सादे बैकग्राउंड के लिए)",qk:"क्विक मोड चला",cmp:"👁 ओरिजिनल देखने के लिए दबाए रखें",nochg:"अभी कोई बदलाव नहीं",mv:"✋ मूव",br:"🖌 ब्रश (वापस लाएँ)",er:"🧽 रबड़",un:"↶ अनडू",sj:"फ़ोटो (इंसान)",bgt:"बैकग्राउंड",bsz:"साइज़",zm:"ज़ूम",hint:"मूव: चुनी हुई लेयर को खींचें। ब्रश/रबड़: फ़ोटो पर रगड़ें।",rend:"फाइनल फ़ोटो बन रही है…"}};
+const L={en:{h1:"Compress, 4K HD & Background Remover",sub:"Fast, free and private. Photos never leave your device.",tc:"🗜️ Compress",te:"✨ 4K HD",tb:"🪄 BG Remove",drop:"Tap to choose photos or drag & drop here",tg:"Target size",res:"Resolution",bgc:"Background colour",bm:"BG mode",bmp:"Person (fast)",bmo:"Any object (HQ, slow first time)",bmq:"Plain background (instant)",fm:"Output format",au:"Auto-start when photos are added",go:"Start",save:"💾 Save / Download",rr:"↻ Remove again",da:"Download All",cl:"Clear",adT:"Advertisement (Top)",adB:"Advertisement (Bottom)",mi:"Made in India 🇮🇳",by:"Made by V Pandey",o:"Original",r:"Result",ready:"Ready",wk:"Processing…",ok:"Done",fail:"Failed",dl:"Download",auto:"⚡ Auto 4K (best settings automatically)",pn:"🌙 Night",pm:"🌿 Mint",pr:"↺ Reset",en:"Move any slider and watch the photo change live above. Auto 4K sets everything for you. Press Save to choose size and create the final file.",ed:"Use Brush to bring back parts that were cut, Eraser to remove leftover background, Move to drag the photo, Crop for passport size.",ld:"Loading AI",fb:"HQ AI failed, trying fast AI…",fb2:"AI unavailable, using quick mode (plain backgrounds only)",qk:"Quick mode used",cmp:"👁 Hold to see original",nochg:"No changes yet",mv:"✋ Move",br:"🖌 Brush (restore)",er:"🧽 Eraser",un:"↶ Undo",sj:"Subject",bgt:"Background",bsz:"Brush size",zm:"Zoom",hint:"Move: drag the chosen layer. Brush/Eraser: rub on the photo.",rend:"Rendering final image…",sas:"Save as – choose size / crop",crp:"✂ Crop",ac:"✔ Apply crop to photo",uc:"↺ Undo crop",mk:"⬇ Create file",ca:"Cancel",cz:"Crop size",ro:"Original (no crop)",mnote:"Drag the box to choose which part to keep. Passport sizes are exported in exact pixels (300 dpi)."},
+hi:{h1:"कंप्रेस, 4K HD और बैकग्राउंड रिमूवर",sub:"तेज़, मुफ़्त और सुरक्षित। फ़ोटो आपके डिवाइस से बाहर नहीं जाती।",tc:"🗜️ कंप्रेस",te:"✨ 4K HD",tb:"🪄 BG हटाएँ",drop:"फ़ोटो चुनने के लिए टैप करें या यहाँ ड्रैग & ड्रॉप करें",tg:"टारगेट साइज़",res:"रेज़ोल्यूशन",bgc:"बैकग्राउंड रंग",bm:"BG मोड",bmp:"इंसान (तेज़)",bmo:"कोई भी चीज़ (HQ, पहली बार धीमा)",bmq:"सादा बैकग्राउंड (तुरंत)",fm:"आउटपुट फॉर्मेट",au:"फ़ोटो डालते ही अपने-आप शुरू करें",go:"शुरू करें",save:"💾 सेव / डाउनलोड",rr:"↻ फिर से हटाएँ",da:"सब डाउनलोड करें",cl:"साफ़ करें",adT:"विज्ञापन (ऊपर)",adB:"विज्ञापन (नीचे)",mi:"मेड इन इंडिया 🇮🇳",by:"मेड बाय वी पांडे",o:"ओरिजिनल",r:"नतीजा",ready:"तैयार",wk:"प्रोसेस हो रहा है…",ok:"पूरा हुआ",fail:"नहीं हो पाया",dl:"डाउनलोड",auto:"⚡ ऑटो 4K (सबसे अच्छी सेटिंग अपने-आप)",pn:"🌙 नाइट",pm:"🌿 मिंट",pr:"↺ रीसेट",en:"कोई भी स्लाइडर हिलाइए, ऊपर फ़ोटो लाइव बदलती दिखेगी। ऑटो 4K सब खुद सेट कर देता है। साइज़ चुनकर फाइनल फ़ाइल बनाने के लिए सेव दबाएँ।",ed:"कटा हुआ हिस्सा वापस लाने के लिए ब्रश, बचा हुआ बैकग्राउंड मिटाने के लिए रबड़, फ़ोटो खिसकाने के लिए मूव और पासपोर्ट साइज़ के लिए क्रॉप इस्तेमाल करें।",ld:"AI लोड हो रहा है",fb:"HQ AI नहीं चला, तेज़ AI आज़मा रहे हैं…",fb2:"AI नहीं चला, क्विक मोड चल रहा है (सादे बैकग्राउंड के लिए)",qk:"क्विक मोड चला",cmp:"👁 ओरिजिनल देखने के लिए दबाए रखें",nochg:"अभी कोई बदलाव नहीं",mv:"✋ मूव",br:"🖌 ब्रश (वापस लाएँ)",er:"🧽 रबड़",un:"↶ अनडू",sj:"फ़ोटो (इंसान)",bgt:"बैकग्राउंड",bsz:"साइज़",zm:"ज़ूम",hint:"मूव: चुनी हुई लेयर को खींचें। ब्रश/रबड़: फ़ोटो पर रगड़ें।",rend:"फाइनल फ़ोटो बन रही है…",sas:"ऐसे सेव करें – साइज़ / क्रॉप चुनें",crp:"✂ क्रॉप",ac:"✔ फ़ोटो में क्रॉप लगाएँ",uc:"↺ क्रॉप वापस",mk:"⬇ फ़ाइल बनाएँ",ca:"रद्द करें",cz:"क्रॉप साइज़",ro:"ओरिजिनल (बिना क्रॉप)",mnote:"बॉक्स को खींचकर चुनें कि फ़ोटो का कौन-सा हिस्सा रखना है। पासपोर्ट साइज़ सही पिक्सल (300 dpi) में बनते हैं।"}};
 const $=i=>document.getElementById(i),t=k=>L[lang][k]||k,sz=b=>b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB',tick=()=>new Promise(r=>setTimeout(r,12));
 const to=(p,ms)=>Promise.race([p,new Promise((_,j)=>setTimeout(()=>j(new Error('timeout')),ms))]);
-const cv=$('cv');
-let lang='en',mode='c',bg='transparent',bgI=null,items=[],cur=0,busy=0,auto=0,lt=0,E=null,BE=null,tool='m',mt='s',tmr,pt=0,dlu=null;
+const cv=$('cv'),mc=$('mc');
+let lang='en',mode='c',bg='transparent',bgI=null,items=[],cur=0,busy=0,auto=0,lt=0,E=null,BE=null,M=null,tool='m',mt='s',tmr,pt=0,dlu=null;
 let TR={s:{x:0,y:0,k:1},b:{x:0,y:0,k:1}};const sizes={b:40,e:40};
 try{lang=localStorage.getItem('lang')||'en'}catch(e){}
 const setSt=m=>{$('st').textContent=m||'';$('st').style.display=m?'block':'none'};
@@ -158,7 +171,7 @@ function sync(){SL.forEach(s=>{$('r_'+s[0]).value=P[s[0]];$('v_'+s[0]).textConte
 function preset(k){P={};SL.forEach(s=>P[s[0]]=s[5]);HS=zero();Object.assign(P,PR[k].p);for(const c in PR[k].h)HS[c]=[...PR[k].h[c]];sync()}
 preset('');
 
-/* ---------- background colour swatches (colours, round RGB picker, gallery) ---------- */
+/* ---------- background colour swatches ---------- */
 const mark=el=>document.querySelectorAll('#sw>*').forEach(x=>x.classList.toggle('on',x===el));
 const bgCh=()=>{if(BE)drawB()};
 ['transparent','#ffffff','#1e73e8','#d62828','#ff8c00','#2e9e4f'].forEach(c=>{
@@ -207,20 +220,29 @@ async function out(c,f,q){return f==='pdf'?mk(await tb(c,'image/jpeg',q),c.width
 const EXT={'image/jpeg':'jpg','image/webp':'webp','image/png':'png',pdf:'pdf'};
 function showDl(r,f,sf){if(dlu)URL.revokeObjectURL(dlu);dlu=URL.createObjectURL(r.blob);const it=items[cur]||{name:'photo'};
  $('dlbox').innerHTML=`<a class="btn" style="display:block;text-align:center;text-decoration:none" href="${dlu}" download="${it.name.replace(/\.[^.]+$/,'')}_${sf}.${EXT[f]||'png'}">⬇ ${t('dl')} (${r.w}×${r.h} · ${sz(r.blob.size)})</a>`}
+async function cropOut(c,r,px,f,sf){
+ const w=px?px[0]:Math.round(r.w),h=px?px[1]:Math.round(r.h),o=document.createElement('canvas');o.width=w;o.height=h;const x=o.getContext('2d'),fl=fill(f);
+ if(fl){x.fillStyle=fl;x.fillRect(0,0,w,h)}x.imageSmoothingQuality='high';x.drawImage(c,r.x,r.y,r.w,r.h,0,0,w,h);
+ showDl({blob:await out(o,f,.93),w,h},f,sf)}
 
-/* ---------- 1) compress to exact size ---------- */
+/* ---------- 1) FAST compress to exact size ---------- */
 async function fit(s,W,H,f,T){
- const pdf=f==='pdf',m=pdf?'image/jpeg':f,tg=Math.max(T-(pdf?900:0),200),b0=fill(m);let w=W,h=H;
- const bpp=tg/(W*H);if(bpp<.1){const k=Math.max(.03,Math.sqrt(bpp/.2));w*=k;h*=k}
- for(let n=0;n<12;n++){
-  const c=drw(s,w,h,b0);let best,sm;
-  if(m==='image/png'){sm=await tb(c,m);if(sm.size<=tg)best=sm}
-  else{const hi=await tb(c,m,.92);
-   if(hi.size<=tg)best=hi;
-   else{sm=await tb(c,m,.3);
-    if(sm.size<=tg){best=sm;let lo=.3,up=.92;for(let k=0;k<7;k++){const q=(lo+up)/2,b=await tb(c,m,q);if(b.size<=tg){best=b;lo=q}else up=q}}}}
+ const pdf=f==='pdf',m=pdf?'image/jpeg':f,png=m==='image/png',tg=Math.max(T-(pdf?900:0),200),f0=fill(m),cap=W*H;
+ let px=Math.min(cap,tg/(png?1.2:.3)*1.5),w,h,c,b65=null,c65=null;
+ const mkc=()=>{const k=Math.sqrt(px/cap);w=Math.max(8,W*k);h=Math.max(8,H*k);c=drw(s,w,h,f0)};
+ for(let n=0;n<5;n++){                       // 1-4 quick size probes at q=.65 to find the right dimensions
+  mkc();const bb=await tb(c,m,.65),r=tg/bb.size;b65=bb;c65=c;
+  if(r>=1&&(r<=1.6||px>=cap))break;
+  px=Math.min(cap,px*r*(r<1?.92:.9))}
+ for(let n=0;n<8;n++){
+  let best=0,a=.15;
+  if(png){if(c===c65&&b65.size<=tg)best=b65;else{const b=await tb(c,m);if(b.size<=tg)best=b}}
+  else{
+   if(c===c65&&b65.size<=tg){best=b65;a=.65}
+   else{const lo=await tb(c,m,.15);if(lo.size<=tg)best=lo}
+   if(best){let z=.95;for(let k=0;k<5;k++){const q=(a+z)/2,b=await tb(c,m,q);if(b.size<=tg){best=b;a=q}else z=q}}}
   if(best)return{blob:pdf?await mk(best,c.width,c.height):best,w:c.width,h:c.height};
-  const k=Math.max(.15,Math.min(.9,Math.sqrt(tg/sm.size)*.96));w*=k;h*=k;if(w<8||h<8)break}
+  px=Math.max(64,px*.8);mkc();if(w<=8&&h<=8)break}
  return null}
 async function runC(it,f,T){
  it.s='w';it.p=10;it.msg='';ui();await tick();
@@ -277,13 +299,12 @@ function sharp(c,a){if(a<=0)return;const x=c.getContext('2d'),w=c.width,h=c.heig
  for(let y=0;y<h;y++){const u=(y?y-1:y)*w,v=(y<h-1?y+1:y)*w,r=y*w;for(let X=0;X<w;X++){const l=X?X-1:X,q=X<w-1?X+1:X,i=(r+X)*4,A=(u+X)*4,B=(v+X)*4,C=(r+l)*4,D=(r+q)*4;
   for(let j=0;j<3;j++)o[i+j]=d[i+j]*k-a*(d[A+j]+d[B+j]+d[C+j]+d[D+j]);o[i+3]=d[i+3]}}
  x.putImageData(new ImageData(o,w,h),0,0)}
-async function enh(s,W,H,f,Lg,P,HS){
+async function enhC(s,W,H,f,Lg,P,HS){
  const k=Lg?Lg/Math.max(W,H):1,tw=Math.round(W*k),th=Math.round(H*k),m=Math.min(1,k);
  let c=drw(s,W*m,H*m,fill(f));await grade(c,P,HS);
  while(c.width*2<tw){c=drw(c,c.width*2,c.height*2);await tick()}
  if(c.width!==tw)c=drw(c,tw,th);
- await tick();sharp(c,P.sharpness/100*.7);
- return{blob:await out(c,f,.93),w:tw,h:th}}
+ await tick();sharp(c,P.sharpness/100*.7);return c}
 async function loadE(it){
  const my=++lt;E=null;BE=null;setSt(t('wk'));
  try{const b=await bmp(it.blob),[W,H]=dim(b),k=Math.min(1,1100/Math.max(W,H));if(my!==lt)return;
@@ -299,12 +320,11 @@ function showCh(){const a=SL.filter(s=>P[s[0]]!==s[5]).map(s=>s[1]+' '+(P[s[0]]>
  HC.forEach(h=>{const v=HS[h[0]];if(v.some(z=>z))a.push(h[0]+' H'+v[0]+' S'+v[1]+' L'+v[2])});$('chg').textContent=a.length?a.join(' · '):t('nochg')}
 const showO=o=>{if(!E)return;cv.getContext('2d').drawImage(o?E.src:(E.last||E.src),0,0)};
 $('cmp').onpointerdown=e=>{e.preventDefault();showO(1)};['pointerup','pointerleave','pointercancel'].forEach(v=>$('cmp')['on'+v]=()=>showO(0));
-async function doAuto(){if(!E)return;P=autoP(E.src,E.src.width,E.src.height);HS=zero();$('rs').value='3840';sync();await rendE();await exportE()}
-$('auto').onclick=()=>{if(mode!=='e')return;if(!E){auto=1;$('fi').click()}else doAuto()};
-async function exportE(){
- if(!E)return;setSt(t('rend'));
- try{const f=$('fmt').value,r=await enh(E.bmp,E.W,E.H,f,+$('rs').value,P,HS);showDl(r,f,'4K');setSt('')}
+async function doAuto(){
+ if(!E)return;P=autoP(E.src,E.src.width,E.src.height);HS=zero();$('rs').value='3840';sync();await rendE();setSt(t('rend'));
+ try{const f=$('fmt').value,c=await enhC(E.bmp,E.W,E.H,f,3840,P,HS);await cropOut(c,{x:0,y:0,w:c.width,h:c.height},null,f,'4K');setSt('')}
  catch(e){setSt(t('fail')+' '+String(e.message||e).slice(0,60))}}
+$('auto').onclick=()=>{if(mode!=='e')return;if(!E){auto=1;$('fi').click()}else doAuto()};
 
 /* ---------- 3) background remover + brush editor ---------- */
 const MP='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14',IM='https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm';let seg;
@@ -315,10 +335,10 @@ async function person(blob){
  const r=sg.segment(c),ms=r.confidenceMasks,m=ms[ms.length-1],a=Float32Array.from(m.getAsFloat32Array()),mw=m.width,mh=m.height;
  try{ms.forEach(q=>q.close())}catch(e){}
  let bs=0,bn=0;for(let i=0;i<mw;i++){bs+=a[i]+a[(mh-1)*mw+i];bn+=2}for(let j=0;j<mh;j++){bs+=a[j*mw]+a[j*mw+mw-1];bn+=2}
- const inv=bs/bn>.5,mc=document.createElement('canvas');mc.width=mw;mc.height=mh;const mx=mc.getContext('2d'),mi=mx.createImageData(mw,mh);
+ const inv=bs/bn>.5,mcv=document.createElement('canvas');mcv.width=mw;mcv.height=mh;const mx=mcv.getContext('2d'),mi=mx.createImageData(mw,mh);
  for(let i=0;i<a.length;i++){const v=inv?1-a[i]:a[i];mi.data[i*4+3]=Math.max(0,Math.min(255,(v-.35)/.3*255))}
  mx.putImageData(mi,0,0);
- const md=drw(mc,w,h,0).getContext('2d').getImageData(0,0,w,h).data,x=c.getContext('2d'),im=x.getImageData(0,0,w,h),d=im.data;
+ const md=drw(mcv,w,h,0).getContext('2d').getImageData(0,0,w,h).data,x=c.getContext('2d'),im=x.getImageData(0,0,w,h),d=im.data;
  for(let i=3;i<d.length;i+=4)d[i]=md[i];x.putImageData(im,0,0);return tb(c,'image/png')}
 async function quick(blob){
  const s=await bmp(blob),[W0,H0]=dim(s),k=Math.min(1,1600/Math.max(W0,H0)),w=Math.round(W0*k),h=Math.round(H0*k),c=drw(s,w,h,0),x=c.getContext('2d'),im=x.getImageData(0,0,w,h),p=im.data,bd=[];
@@ -339,7 +359,7 @@ async function loadB(it){
  try{const b=await bmp(it.blob),[W0,H0]=dim(b),k=Math.min(1,1800/Math.max(W0,H0)),w=Math.round(W0*k),h=Math.round(H0*k),orig=drw(b,w,h,0);
   cv.width=w;cv.height=h;cv.getContext('2d').drawImage(orig,0,0);
   const q=await rm(it.blob,$('bm').value,m=>{if(my===lt)setSt(m)});if(my!==lt)return;
-  const cut=drw(await bmp(q.b),w,h,0);BE={orig,cut,w,h,hist:[]};TR={s:{x:0,y:0,k:1},b:{x:0,y:0,k:1}};updZ();setSt(q.q?t('qk'):'');drawB()}
+  const cut=drw(await bmp(q.b),w,h,0);BE={orig,cut,w,h,hist:[],cs:[]};TR={s:{x:0,y:0,k:1},b:{x:0,y:0,k:1}};updZ();setSt(q.q?t('qk'):'');drawB()}
  catch(e){setSt(t('fail')+' '+String(e.message||e).slice(0,60))}}
 $('rr').onclick=()=>{if(mode==='b'&&items[cur])loadB(items[cur])};
 function paintB(x,w,h,solid){
@@ -350,10 +370,6 @@ let curp=null;
 function drawB(){if(!BE)return;if(cv.width!==BE.w||cv.height!==BE.h){cv.width=BE.w;cv.height=BE.h}
  const x=cv.getContext('2d');x.clearRect(0,0,cv.width,cv.height);paintB(x,cv.width,cv.height,0);
  if(curp&&tool!=='m'){x.strokeStyle='#fff';x.lineWidth=Math.max(2,cv.width/300);x.beginPath();x.arc(curp.x,curp.y,sizes[tool]*cv.width/700,0,6.2832);x.stroke()}}
-async function exportB(){
- if(!BE)return;try{const f=$('fmt').value,c=document.createElement('canvas');c.width=BE.w;c.height=BE.h;paintB(c.getContext('2d'),c.width,c.height,fill(f));
-  showDl({blob:await out(c,f,.95),w:c.width,h:c.height},f,'nobg')}catch(e){setSt(t('fail')+' '+String(e.message||e).slice(0,60))}}
-$('sv').onclick=()=>mode==='e'?exportE():exportB();
 const updZ=()=>{const k=Math.round(TR[mt].k*100);$('zs').value=k;$('zv').textContent=k};
 document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tool=b.dataset.t;document.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x===b));$('bs').value=sizes[tool]||40;$('bsv').textContent=$('bs').value;$('bs').disabled=tool==='m'});
 document.querySelectorAll('[data-mt]').forEach(b=>b.onclick=()=>{mt=b.dataset.mt;document.querySelectorAll('[data-mt]').forEach(x=>x.classList.toggle('on',x===b));updZ()});
@@ -373,7 +389,57 @@ cv.onpointerdown=e=>{if(mode!=='b'||!BE)return;e.preventDefault();try{cv.setPoin
 cv.onpointermove=e=>{if(!ptr||!BE)return;e.preventDefault();const p=cpos(e);if(tool==='m'){const o=TR[mt];o.x+=p.x-ptr.x;o.y+=p.y-ptr.y}else stroke(ptr,p);ptr=p;curp=p;drawB()};
 const up=()=>{ptr=null;curp=null;drawB()};cv.onpointerup=up;cv.onpointercancel=up;
 
+/* ---------- 4) SAVE AS / CROP window (passport, 9:16 and every common ratio) ---------- */
+const RT=[['ro',0,0],['1:1',1,1],['4:5',4,5],['3:4',3,4],['2:3',2,3],['9:16',9,16],['16:9',16,9],['4:3',4,3],['3:2',3,2],
+ ['🇮🇳 Passport 35×45 mm',7,9,413,531],['US Passport 2×2 in',1,1,600,600],['Aadhaar/PAN 25×35 mm',5,7,295,413],['Visa 33×48 mm',11,16,390,567],['Stamp 20×25 mm',4,5,236,295],['Photo 4×6 in',2,3,1200,1800],['Photo 5×7 in',5,7,1500,2100],['Insta Story 1080×1920',9,16,1080,1920],['YouTube 1280×720',16,9,1280,720]];
+function outDims(){if(M.px)return M.px;let k=1;if(M.k==='e'){const L2=+$('rs').value;k=(L2?L2/Math.max(E.W,E.H):1)*E.W/M.src.width}return[Math.round(M.r.w*k),Math.round(M.r.h*k)]}
+const info=()=>{const d=outDims();$('mi2').textContent=d[0]+' × '+d[1]+' px'};
+function drawM(){const s=M.src,x=mc.getContext('2d'),r=M.r;if(mc.width!==s.width||mc.height!==s.height){mc.width=s.width;mc.height=s.height}
+ x.clearRect(0,0,mc.width,mc.height);x.drawImage(s,0,0);
+ x.fillStyle='rgba(0,0,0,.55)';x.beginPath();x.rect(0,0,mc.width,mc.height);x.rect(r.x,r.y,r.w,r.h);x.fill('evenodd');
+ x.strokeStyle='#fff';x.lineWidth=Math.max(2,mc.width/250);x.strokeRect(r.x,r.y,r.w,r.h);
+ x.lineWidth=Math.max(1,mc.width/600);x.globalAlpha=.5;x.beginPath();for(let i=1;i<3;i++){x.moveTo(r.x+r.w*i/3,r.y);x.lineTo(r.x+r.w*i/3,r.y+r.h);x.moveTo(r.x,r.y+r.h*i/3);x.lineTo(r.x+r.w,r.y+r.h*i/3)}x.stroke();x.globalAlpha=1}
+function fitR(){const sw=M.src.width,sh=M.src.height,cx=M.r.x+M.r.w/2,cy=M.r.y+M.r.h/2;let w=sw,h=sh;
+ if(M.rw){const ar=M.rw/M.rh;w=sw;h=sw/ar;if(h>sh){h=sh;w=sh*ar}const z=$('mz').value/100;w*=z;h*=z}
+ M.r={x:Math.max(0,Math.min(sw-w,cx-w/2)),y:Math.max(0,Math.min(sh-h,cy-h/2)),w,h};drawM();info()}
+function setR(i){const R=RT[i];M.rw=R[1];M.rh=R[2];M.px=R[3]?[R[3],R[4]]:null;fitR()}
+function openMd(k){
+ let src;
+ if(k==='e'){if(!E)return;src=E.last||E.src}
+ else{if(!BE)return;src=document.createElement('canvas');src.width=BE.w;src.height=BE.h;paintB(src.getContext('2d'),BE.w,BE.h,0)}
+ M={k,src,r:{x:0,y:0,w:src.width,h:src.height},px:null,rw:0,rh:0};
+ $('rt').innerHTML='';RT.forEach((R,i)=>{const b=document.createElement('button');b.className='chip'+(i?'':' on');b.textContent=i?R[0]:t('ro');
+  b.onclick=()=>{setR(i);[...$('rt').children].forEach(x=>x.classList.toggle('on',x===b))};$('rt').appendChild(b)});
+ $('mz').value=100;$('mzv').textContent=100;
+ $('mcr').classList.toggle('hide',k!=='b');$('mun').classList.toggle('hide',!(k==='b'&&BE.cs.length));
+ $('md').classList.remove('hide');drawM();info()}
+let mp=null;
+const mpos=e=>{const r=mc.getBoundingClientRect();return{x:(e.clientX-r.left)*mc.width/r.width,y:(e.clientY-r.top)*mc.height/r.height}};
+mc.onpointerdown=e=>{if(!M)return;e.preventDefault();try{mc.setPointerCapture(e.pointerId)}catch(x){}mp=mpos(e)};
+mc.onpointermove=e=>{if(!mp||!M)return;e.preventDefault();const p=mpos(e),r=M.r;r.x=Math.max(0,Math.min(M.src.width-r.w,r.x+p.x-mp.x));r.y=Math.max(0,Math.min(M.src.height-r.h,r.y+p.y-mp.y));mp=p;drawM()};
+mc.onpointerup=mc.onpointercancel=()=>{mp=null};
+$('mz').oninput=e=>{$('mzv').textContent=e.target.value;if(M)fitR()};
+const hideMd=()=>$('md').classList.add('hide');
+$('mcn').onclick=hideMd;
+$('sv').onclick=()=>openMd(mode);
+$('cp').onclick=()=>openMd('b');
+$('mok').onclick=async()=>{
+ const m=M;hideMd();if(!m)return;setSt(t('rend'));
+ try{const f=$('fmt').value;let c,r;
+  if(m.k==='e'){c=await enhC(E.bmp,E.W,E.H,f,+$('rs').value,P,HS);const k=c.width/m.src.width;r={x:m.r.x*k,y:m.r.y*k,w:m.r.w*k,h:m.r.h*k}}
+  else{c=document.createElement('canvas');c.width=BE.w;c.height=BE.h;paintB(c.getContext('2d'),c.width,c.height,fill(f));r={...m.r}}
+  await cropOut(c,r,m.px,f,m.k==='e'?'4K':'nobg');setSt('')}
+ catch(e){setSt(t('fail')+' '+String(e.message||e).slice(0,60))}};
+$('mcr').onclick=()=>{
+ if(!M||M.k!=='b'||!BE)return;const r=M.r,W=BE.w,H=BE.h;
+ if(r.w>=W-1&&r.h>=H-1){hideMd();return}
+ BE.cs.push({w:W,h:H,s:{...TR.s},b:{...TR.b}});
+ const nw=Math.round(r.w),nh=Math.round(r.h),dx=W/2-r.x-nw/2,dy=H/2-r.y-nh/2;
+ if(bgI){const[bw,bh]=dim(bgI);TR.b.k*=Math.max(W/bw,H/bh)/Math.max(nw/bw,nh/bh)}
+ TR.b.x+=dx;TR.b.y+=dy;TR.s.x+=dx;TR.s.y+=dy;BE.w=nw;BE.h=nh;updZ();hideMd();drawB()};
+$('mun').onclick=()=>{if(!BE||!BE.cs.length)return;const s=BE.cs.pop();BE.w=s.w;BE.h=s.h;TR.s={...s.s};TR.b={...s.b};hideMd();updZ();drawB()};
+
 applyLang();
 </script>
 </body>
- </html>
+</html>
